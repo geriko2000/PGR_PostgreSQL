@@ -33,7 +33,7 @@ public class Client {
     public Client() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
-    @SequenceGenerator(name="product_seq", sequenceName="SEQ_PRODUCT", allocationSize = 1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "SEQ_PRODUCT", allocationSize = 1)
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class Product {
     public Product() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -60,7 +60,7 @@ public class Product {
         return releaseDate;
     }
 
-    public long getCost() {
+    public int getCost() {
         return cost;
     }
 

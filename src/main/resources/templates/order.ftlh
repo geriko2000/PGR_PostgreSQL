@@ -4,6 +4,15 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
+    Поиск заказа: <br/>
+    <form method="get">
+        <select name="filter">
+            <option name="filterClient" value="client">Клиент</option>
+            <option name="filterProduct" value="product">Изделие</option>
+        </select>
+        <input type="text" name="search">
+        <button type="submit">Поиск</button>
+    </form>
     Таблица заказов
     <table>
         <thead>

@@ -30,7 +30,7 @@ public class Order {
     public Order() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -42,12 +42,11 @@ public class Order {
         return product;
     }
 
-    public long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
     public LocalDate getDate() {
         return date;
     }
-
 }

@@ -78,29 +78,19 @@ public class MainController {
     }
 
     @GetMapping("/order") /*Гет маппинг для вывода таблицы заказов*/
-    public String order(@RequestParam(required = false, defaultValue = "") Integer id,
-                        @RequestParam(required = false, defaultValue = "") String client,
-                        @RequestParam(required = false, defaultValue = "") String product,
-                        @RequestParam(required = false, defaultValue = "") String date,
+    public String order(@RequestParam(required = false, defaultValue = "") String search,
+                        @RequestParam(required = false, defaultValue = "") String filter,
                         Model model) {
         Iterable<Order> order;
-        if (id != null) {
-            order = orderRepo.findById(id);
-        } else if (!client.isEmpty()) {
-            order = orderRepo.findByClient(client);
-        } else if (!product.isEmpty()) {
-            order = orderRepo.findByProduct(product);
-        } else if (!date.isEmpty()) {
-            order = orderRepo.findByDate(LocalDate.parse(date));
+        if (!filter.isEmpty() && filter.equals("client") && !search.isEmpty()) {
+            order = orderRepo.findByClient(search);
+        } else if (!filter.isEmpty() && filter.equals("product") && !search.isEmpty()) {
+            order = orderRepo.findByProduct(search);
         } else {
             order = orderRepo.findAll();
         }
 
         model.addAttribute("orders", order);
-        model.addAttribute("id", id);
-        model.addAttribute("client", client);
-        model.addAttribute("product", product);
-        model.addAttribute("date", date);
 
         return "order";
     }
