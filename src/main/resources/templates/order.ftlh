@@ -11,7 +11,7 @@
             <option name="filterProduct" value="product">Изделие</option>
         </select>
         <input type="text" name="search">
-        <button type="submit">Поиск</button>
+        <button type="submit">Поиск</button><br/>
     </form>
     Таблица заказов
     <table>

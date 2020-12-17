@@ -4,27 +4,30 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
-    <div>Добавление записи в таблицу заказов</div>
+    <div><b>Добавление записи в таблицу заказов</b></div>
     <div>Заполните данные:</div>
     <div>
         <form method="post" enctype="multipart/form-data">
-            <select name="client">
+            <label for="client">Имя клиента</label><br/>
+            <select name="client" id="client">
                 <#list clients as clients>
                     <option value="${clients.name}">${clients.name}</option>
                 </#list>
-            </select>
-            <select name="product">
+            </select><br/>
+            <label for="product">Изделие</label><br/>
+            <select name="product" id="product">
                 <#list products as products>
                     <option value="${products.name}">${products.name}</option>
                 </#list>
-            </select>
-            <input type="text" name="quantity" placeholder="Количество">
+            </select><br/>
+            <label for="quantity">Количество (число)</label><br/>
+            <input type="text" name="quantity" placeholder="Количество" id="quantity"><br/><br/>
             <button type="submit">Добавить</button>
         </form>
     </div>
-    ${message!}
+    <b>${message!}</b><br/>
     <br/>
-    Таблица заказов
+    <b>Таблица заказов</b>
     <div>
         <table>
             <thead>

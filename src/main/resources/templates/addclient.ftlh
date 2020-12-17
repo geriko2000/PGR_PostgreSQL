@@ -4,7 +4,7 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
-    <div>Добавление записи в таблицу клиентов</div>
+    <div><b>Добавление записи в таблицу клиентов</b></div>
     <div>Заполните данные:</div>
     <div>
         <form method="post" enctype="multipart/form-data">
@@ -21,9 +21,9 @@
             <button type="submit">Добавить</button>
         </form>
     </div>
-    ${message!}
+    <b>${message!}</b><br/>
     <br/>
-    Таблица клиентов
+    <b>Таблица клиентов</b>
     <div>
         <table>
             <thead>

@@ -6,10 +6,17 @@
     </form>
     <br/>
     <div>
-        Есть в наличии?
+        Поиск изделия:
         <form method="get" action="/product">
-            <input type="checkbox" name="availability">
-            <button type="submit">Принять</button>
+            <select name="filter">
+                <option name="filterName" value="name">Название</option>
+                <option name="filterType" value="type">Тип</option>
+                <option name="filterMaterial" value="material">Материал</option>
+            </select>
+            <input type="text" name="search">
+            <label for="availability">Показать только товары в наличии</label>
+            <input type="checkbox" name="availability" id="availability"><br/>
+            <button type="submit">Поиск</button><br/>
         </form>
     </div>
     <br/>

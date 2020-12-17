@@ -9,4 +9,5 @@ public interface ClientRepo extends JpaRepository<Client, Long> {
     List<Client> findByName(String name);
     List<Client> findByCity(String city);
     List<Client> findByAddress(String address);
+
 }

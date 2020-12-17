@@ -13,7 +13,7 @@
         <input type="radio" name="filter" id="city" value="city">
         <label for="city">городу</label><br/>
         <input type="text" name="search">
-        <button type="submit">Принять</button><br/>
+        <button type="submit">Поиск</button><br/>
     </form>
     Таблица клиентов
     <table>

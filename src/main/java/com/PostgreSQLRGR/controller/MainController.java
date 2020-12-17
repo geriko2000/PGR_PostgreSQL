@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class MainController {
@@ -39,23 +41,29 @@ public class MainController {
     }
 
     @GetMapping("/product") /*Гет маппинг для вывода таблицы изделий*/
-    public String product(@RequestParam(required = false, defaultValue = "") Integer id,
-                          @RequestParam(required = false, defaultValue = "") String name,
-                          @RequestParam(required = false, defaultValue = "") String material,
-                          @RequestParam(required = false, defaultValue = "") String type,
+    public String product(@RequestParam(required = false, defaultValue = "") String search,
+                          @RequestParam(required = false, defaultValue = "") String filter,
                           @RequestParam(required = false, defaultValue = "false") boolean availability,
                           Model model) {
         Iterable<Product> product;
-        if (id != null) {
-            product = productRepo.findById(id);
-        } else if (!name.isEmpty()) {
-            product = productRepo.findByName(name);
-        } else if (!material.isEmpty()) {
-            product = productRepo.findByMaterial(material);
-        } else if (!type.isEmpty()) {
-            product = productRepo.findByType(type);
-        } else if (availability) {
-            product = productRepo.findByAvailabilityGreaterThan(0);
+        if (!search.isEmpty() && filter.equals("name")) {
+            if (!availability) {
+                product = productRepo.findByName(search);
+            } else {
+                product = productRepo.findByNameAndAvailabilityGreaterThan(search, 0);
+            }
+        } else if (!search.isEmpty() && filter.equals("material")) {
+            if (!availability) {
+                product = productRepo.findByMaterial(search);
+            } else {
+                product = productRepo.findByMaterialAndAvailabilityGreaterThan(search, 0);
+            }
+        } else if (!search.isEmpty() && filter.equals("type")) {
+            if (!availability) {
+                product = productRepo.findByType(search);
+            } else {
+                product = productRepo.findByTypeAndAvailabilityGreaterThan(search, 0);
+            }
         } else {
             product = productRepo.findAll();
         }
@@ -68,11 +76,6 @@ public class MainController {
 //        System.out.println("avail = " + availability);
 
         model.addAttribute("products", product);
-        model.addAttribute("id", id);
-        model.addAttribute("name", name);
-        model.addAttribute("material", material);
-        model.addAttribute("type", type);
-        model.addAttribute("availability", availability);
 
         return "product";
     }
@@ -82,9 +85,9 @@ public class MainController {
                         @RequestParam(required = false, defaultValue = "") String filter,
                         Model model) {
         Iterable<Order> order;
-        if (!filter.isEmpty() && filter.equals("client") && !search.isEmpty()) {
+        if (filter.equals("client") && !search.isEmpty()) {
             order = orderRepo.findByClient(search);
-        } else if (!filter.isEmpty() && filter.equals("product") && !search.isEmpty()) {
+        } else if (filter.equals("product") && !search.isEmpty()) {
             order = orderRepo.findByProduct(search);
         } else {
             order = orderRepo.findAll();
@@ -230,6 +233,13 @@ public class MainController {
         } catch (NumberFormatException ex) {
             model.addAttribute("message", "Введите корректный номер телефона (цифрами без знаков и пробелов)");
             return viewClientTable(model);
+        }
+
+        Pattern pattern = Pattern.compile("\\S+@\\w+\\.(ru|com|net|kek)");
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            model.addAttribute("message", "Введите почту в формате example@domain.ru");
+            return viewProductTable(model);
         }
 
         Client client = new Client(name, email, isPhoneLong, address, city);
