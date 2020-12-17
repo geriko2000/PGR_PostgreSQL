@@ -4,6 +4,17 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
+    <form method="get">
+        Поиск по:<br/>
+        <input type="radio" name="filter" id="name" value="name" checked>
+        <label for="name">имени</label><br/>
+        <input type="radio" name="filter" id="address" value="address">
+        <label for="address">адресу</label><br/>
+        <input type="radio" name="filter" id="city" value="city">
+        <label for="city">городу</label><br/>
+        <input type="text" name="search">
+        <button type="submit">Принять</button><br/>
+    </form>
     Таблица клиентов
     <table>
         <thead>

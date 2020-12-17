@@ -8,11 +8,16 @@
     <div>Заполните данные:</div>
     <div>
         <form method="post" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Имя клиента"/>
-            <input type="text" name="email" placeholder="E-mail клиента"/>
-            <input type="text" name="phone" placeholder="Телефон клиента"/>
-            <input type="text" name="address" placeholder="Адрес клиента">
-            <input type="text" name="city" placeholder="Город проживания клиента"/>
+            <label for="name">Имя клиента</label><br/>
+            <input type="text" name="name" placeholder="Иванов" id="name"/><br/>
+            <label for="email">E-mail</label><br/>
+            <input type="text" name="email" placeholder="example@example.ru" id="email"/><br/>
+            <label for="phone">Телефон</label><br/>
+            <input type="text" name="phone" placeholder="88005553535" id="phone"/><br/>
+            <label for="address">Адрес</label><br/>
+            <input type="text" name="address" placeholder="Ленина 1" id="address"><br/>
+            <label for="city">Город</label><br/>
+            <input type="text" name="city" placeholder="Кибердянск" id="city"/><br/><br/>
             <button type="submit">Добавить</button>
         </form>
     </div>

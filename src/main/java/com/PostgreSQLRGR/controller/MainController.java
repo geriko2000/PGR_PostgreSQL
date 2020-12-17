@@ -55,13 +55,7 @@ public class MainController {
         } else if (!type.isEmpty()) {
             product = productRepo.findByType(type);
         } else if (availability) {
-            //boolean isAvailable = Boolean.getBoolean(availability);
-            //System.out.println(isAvailable);
-            if (availability) {
-                product = productRepo.findByAvailabilityGreaterThan(0);
-            } else {
-                product = productRepo.findAll();
-            }
+            product = productRepo.findByAvailabilityGreaterThan(0);
         } else {
             product = productRepo.findAll();
         }
@@ -112,34 +106,29 @@ public class MainController {
     }
 
     @GetMapping("/client") /*Гет маппинг для вывода таблицы клиентов*/
-    public String client(@RequestParam(required = false, defaultValue = "") Integer id,
-                         @RequestParam(required = false, defaultValue = "") String name,
-                         @RequestParam(required = false, defaultValue = "") String city,
+    public String client(@RequestParam(required = false, defaultValue = "") String search,
+                         @RequestParam(required = false, defaultValue = "") String filter,
                          Model model) {
         Iterable<Client> client;
-        if (id != null) {
-            client = clientRepo.findById(id);
-        } else if (!name.isEmpty()) {
-            client = clientRepo.findByName(name);
-        } else if (!city.isEmpty()) {
-            client = clientRepo.findByCity(city);
+        System.out.println("search = " + search + " filter = " + filter);
+        if (filter.equals("name") && !search.isEmpty()) {
+            client = clientRepo.findByName(search);
+        } else if (filter.equals("address") && !search.isEmpty()) {
+            client = clientRepo.findByAddress(search);
+        } else if (filter.equals("city") && !search.isEmpty()) {
+            client = clientRepo.findByCity(search);
         } else {
             client = clientRepo.findAll();
         }
 
         model.addAttribute("clients", client);
-        model.addAttribute("id", id);
-        model.addAttribute("name", name);
-        model.addAttribute("city", city);
 
         return "client";
     }
 
     @GetMapping("/addproduct") /*Гет маппинг для добавления продукта*/
     public String addProduct(Model model) {
-        Iterable<Product> product = productRepo.findAll();
-        model.addAttribute("products", product);
-        return "addproduct";
+        return viewProductTable(model);
     }
 
     @PostMapping("/addproduct") /*Пост маппинг для добавления продукта*/
@@ -155,54 +144,38 @@ public class MainController {
 
         if (name.isEmpty()) {
             model.addAttribute("message", "Поле с названием продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         } else if (type.isEmpty()) {
             model.addAttribute("message", "Поле с типом продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         } else if (material.isEmpty()) {
             model.addAttribute("message", "Поле с материалом продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         } else if (availability.isEmpty()) {
             model.addAttribute("message", "Поле с количеством продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         } else if (releaseDate.isEmpty()) {
             model.addAttribute("message", "Поле с датой производства продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         } else if (cost.isEmpty()) {
             model.addAttribute("message", "Поле с количеством продукта не должно быть пустым");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         }
 
-        Integer isAvailabilityInt;
+        int isAvailabilityInt;
         try {
             isAvailabilityInt = Integer.parseInt(availability);
         } catch (NumberFormatException ex) {
             model.addAttribute("message", "Введите корректное количество (число)");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         }
 
-        Integer isCostInt;
+        int isCostInt;
         try {
             isCostInt = Integer.parseInt(cost);
         } catch (NumberFormatException ex) {
             model.addAttribute("message", "Введите корректную цену (число)");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         }
 
         LocalDate isDateLocalDate;
@@ -210,9 +183,7 @@ public class MainController {
             isDateLocalDate = LocalDate.parse(releaseDate);
         } catch (DateTimeException ex) {
             model.addAttribute("message", "Введите корректную дату производства (yyyy-mm-dd)");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         }
 
         Product product = new Product(name, type, material, isAvailabilityInt, isDateLocalDate, isCostInt);
@@ -221,26 +192,19 @@ public class MainController {
 
         if (!productFromDb.isEmpty()) {
             model.addAttribute("message", "Товар с таким именем уже существует!");
-            Iterable<Product> products = productRepo.findAll();
-            model.addAttribute("products", products);
-            return "addproduct";
+            return viewProductTable(model);
         }
 
         productRepo.save(product);
 
         model.addAttribute("message", "Запись успешно добавлена!");
 
-        Iterable<Product> products = productRepo.findAll();
-        model.addAttribute("products", products);
-
-        return "addproduct";
+        return viewProductTable(model);
     }
 
     @GetMapping("/addclient") /*Гет маппинг для добавления клиента*/
     public String addClient(Model model) {
-        Iterable<Client> client = clientRepo.findAll();
-        model.addAttribute("clients", client);
-        return "addclient";
+        return viewClientTable(model);
     }
 
     @PostMapping("/addclient") /*Пост маппинг для добавления клиента*/
@@ -255,39 +219,27 @@ public class MainController {
 
         if (name.isEmpty()) {
             model.addAttribute("message", "Поле с именем клиента не должно быть пустым");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         } else if (email.isEmpty()) {
             model.addAttribute("message", "Поле с email не должно быть пустым");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         } else if (phone.isEmpty()) {
             model.addAttribute("message", "Поле с номером телефона не должно быть пустым");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         } else if (address.isEmpty()) {
             model.addAttribute("message", "Поле с адресом не должно быть пустым");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         } else if (city.isEmpty()) {
             model.addAttribute("message", "Поле с городом не должно быть пустым");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         }
 
-        Long isPhoneLong;
+        long isPhoneLong;
         try {
             isPhoneLong = Long.parseLong(phone);
         } catch (NumberFormatException ex) {
             model.addAttribute("message", "Введите корректный номер телефона (цифрами без знаков и пробелов)");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         }
 
         Client client = new Client(name, email, isPhoneLong, address, city);
@@ -296,25 +248,21 @@ public class MainController {
 
         if (!clientFromDb.isEmpty()) {
             model.addAttribute("message", "Клиент с таким именем уже существует!");
-            Iterable<Client> clients = clientRepo.findAll();
-            model.addAttribute("clients", clients);
-            return "addclient";
+            return viewClientTable(model);
         }
 
         clientRepo.save(client);
 
         model.addAttribute("message", "Запись успешно добавлена!");
 
-        Iterable<Client> clients = clientRepo.findAll();
-        model.addAttribute("clients", clients);
-
-        return "addclient";
+        return viewClientTable(model);
     }
 
     @GetMapping("/addorder") /*Гет маппинг для добавления заказа*/
     public String addOrder(Model model) {
-        Iterable<Order> order = orderRepo.findAll();
-        model.addAttribute("orders", order);
+        model.addAttribute("clients", clientRepo.findAll());
+        model.addAttribute("products", productRepo.findAll());
+        model.addAttribute("orders", orderRepo.findAll());
         return "addorder";
     }
 
@@ -323,61 +271,47 @@ public class MainController {
             @RequestParam(required = false) String client,
             @RequestParam(required = false) String product,
             @RequestParam(required = false) String quantity,
-            @RequestParam(required = false) String date,
             Model model
     ) {
 
-        if (client.isEmpty()) {
-            model.addAttribute("message", "Поле с именем клиента не должно быть пустым");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
-        } else if (product.isEmpty()) {
-            model.addAttribute("message", "Поле с типом продукта не должно быть пустым");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
-        } else if (quantity.isEmpty()) {
-            model.addAttribute("message", "Поле с материалом продукта не должно быть пустым");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
-        } else if (date.isEmpty()) {
-            model.addAttribute("message", "Поле с количеством продукта не должно быть пустым");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
+        if (quantity.isEmpty()) {
+            model.addAttribute("message", "Введите количество заказанных изделий");
+            return viewOrderTable(model);
         }
 
-        Integer isQuantityInt;
+        int isQuantityInt;
         try {
             isQuantityInt = Integer.parseInt(quantity);
         } catch (NumberFormatException ex) {
             model.addAttribute("message", "Введите корректное количество (число)");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
+            return viewOrderTable(model);
         }
 
-        LocalDate isDateLocalDate;
-        try {
-            isDateLocalDate = LocalDate.parse(date);
-        } catch (DateTimeException ex) {
-            model.addAttribute("message", "Введите корректную дату заказа (yyyy-mm-dd)");
-            Iterable<Order> orders = orderRepo.findAll();
-            model.addAttribute("orders", orders);
-            return "addorder";
-        }
+        LocalDate date = LocalDate.now();
 
-        Order order = new Order(client, product, isQuantityInt, isDateLocalDate);
+        Order order = new Order(client, product, isQuantityInt, date);
 
         orderRepo.save(order);
 
         model.addAttribute("message", "Запись успешно добавлена!");
 
-        Iterable<Order> orders = orderRepo.findAll();
-        model.addAttribute("orders", orders);
+        return viewOrderTable(model);
+    }
 
+    private String viewProductTable(Model model) {
+        model.addAttribute("products", productRepo.findAll());
+        return "addproduct";
+    }
+
+    private String viewClientTable(Model model) {
+        model.addAttribute("clients", clientRepo.findAll());
+        return "addclient";
+    }
+
+    private String viewOrderTable(Model model) {
+        model.addAttribute("orders", orderRepo.findAll());
+        model.addAttribute("clients", clientRepo.findAll());
+        model.addAttribute("products", productRepo.findAll());
         return "addorder";
     }
 

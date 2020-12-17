@@ -7,7 +7,8 @@ import java.time.LocalDate;
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @SequenceGenerator(name="product_seq", sequenceName="SEQ_PRODUCT", allocationSize = 1)
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)

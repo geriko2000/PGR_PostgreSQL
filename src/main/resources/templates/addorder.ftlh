@@ -8,10 +8,17 @@
     <div>Заполните данные:</div>
     <div>
         <form method="post" enctype="multipart/form-data">
-            <input type="text" name="client" placeholder="Имя клиента"/>
-            <input type="text" name="product" placeholder="Изделие"/>
-            <input type="text" name="quantity" placeholder="Колличество"/>
-            <input type="text" name="date" placeholder="Дата заказа (yyyy-mm-dd)">
+            <select name="client">
+                <#list clients as clients>
+                    <option value="${clients.name}">${clients.name}</option>
+                </#list>
+            </select>
+            <select name="product">
+                <#list products as products>
+                    <option value="${products.name}">${products.name}</option>
+                </#list>
+            </select>
+            <input type="text" name="quantity" placeholder="Количество">
             <button type="submit">Добавить</button>
         </form>
     </div>
