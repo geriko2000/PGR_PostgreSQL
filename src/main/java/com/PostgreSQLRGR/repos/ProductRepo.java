@@ -13,4 +13,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     List<Product> findByNameAndAvailabilityGreaterThan(String name, Integer availability);
     List<Product> findByMaterialAndAvailabilityGreaterThan(String material, Integer availability);
     List<Product> findByTypeAndAvailabilityGreaterThan(String type, Integer availability);
+    List<Product> findByCostGreaterThanEqual(Integer cost);
+    List<Product> findByCostLessThanEqual(Integer cost);
+    List<Product> findByCostLessThanEqualAndCostGreaterThanEqual(Integer maxCost, Integer minCost);
 }

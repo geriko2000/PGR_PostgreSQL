@@ -43,9 +43,15 @@ public class MainController {
     @GetMapping("/product") /*Гет маппинг для вывода таблицы изделий*/
     public String product(@RequestParam(required = false, defaultValue = "") String search,
                           @RequestParam(required = false, defaultValue = "") String filter,
+                          @RequestParam(required = false, defaultValue = "") String minCost,
+                          @RequestParam(required = false, defaultValue = "") String maxCost,
                           @RequestParam(required = false, defaultValue = "false") boolean availability,
                           Model model) {
-        Iterable<Product> product;
+
+        Iterable<Product> product = productRepo.findAll();
+
+        //Фильтры по характеристикам
+
         if (!search.isEmpty() && filter.equals("name")) {
             if (!availability) {
                 product = productRepo.findByName(search);
@@ -64,9 +70,55 @@ public class MainController {
             } else {
                 product = productRepo.findByTypeAndAvailabilityGreaterThan(search, 0);
             }
-        } else {
-            product = productRepo.findAll();
+        } else if (search.isEmpty() && availability) {
+            product = productRepo.findByAvailabilityGreaterThan(0);
         }
+
+        //Фильтры по цене
+
+        if (!minCost.isEmpty() && !maxCost.isEmpty()) {
+            int isMinCostInt, isMaxCostInt;
+            try {
+                isMinCostInt = Integer.parseInt(minCost);
+                isMaxCostInt = Integer.parseInt(maxCost);
+            } catch (NumberFormatException ex) {
+                model.addAttribute("message", "Введите корректную цену (число)");
+                model.addAttribute("products", product);
+                return "product";
+            }
+
+            product = productRepo.findByCostLessThanEqualAndCostGreaterThanEqual(isMaxCostInt, isMinCostInt);
+            model.addAttribute("products", product);
+            return "product";
+        } else if (!minCost.isEmpty()) {
+            int isMinCostInt;
+            try {
+                isMinCostInt = Integer.parseInt(minCost);
+            } catch (NumberFormatException ex) {
+                model.addAttribute("message", "Введите корректную цену (число)");
+                model.addAttribute("products", product);
+                return "product";
+            }
+
+            product = productRepo.findByCostGreaterThanEqual(isMinCostInt);
+            model.addAttribute("products", product);
+            return "product";
+        } else if (!maxCost.isEmpty()) {
+            int isMaxCostInt;
+            try {
+                isMaxCostInt = Integer.parseInt(maxCost);
+            } catch (NumberFormatException ex) {
+                model.addAttribute("message", "Введите корректную цену (число)");
+                model.addAttribute("products", product);
+                return "product";
+            }
+
+            product = productRepo.findByCostLessThanEqual(isMaxCostInt);
+            model.addAttribute("products", product);
+            return "product";
+        }
+
+        //Тесты
 
 //        product.forEach(System.out::println);
 //        System.out.println("id = " + id);
@@ -74,6 +126,8 @@ public class MainController {
 //        System.out.println("material = " + material);
 //        System.out.println("type = " + type);
 //        System.out.println("avail = " + availability);
+
+        //Вывод модели
 
         model.addAttribute("products", product);
 

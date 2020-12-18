@@ -4,6 +4,9 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
+    <form action="/product">
+        <button type="submit">Вернуться к таблице изделий</button>
+    </form>
     <div><b>Добавление записи в таблицу изделий</b></div>
     <div>Заполните данные:</div>
     <div>
@@ -24,35 +27,4 @@
         </form>
     </div>
     <b>${message!}</b><br/>
-    <br/>
-    <b>Таблица ювелирных изделий</b>
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>Код изделия</th>
-                <th>Название</th>
-                <th>Тип</th>
-                <th>Материал</th>
-                <th>Наличие</th>
-                <th>Дата выпуска</th>
-                <th>Цена</th>
-            </tr>
-            </thead>
-            <body>
-            <#list products as product>
-                <tr>
-                    <td>${product.id}</td>
-                    <td>${product.name}</td>
-                    <td>${product.type}</td>
-                    <td>${product.material}</td>
-                    <td>${product.availability}</td>
-                    <td>${product.releaseDate}</td>
-                    <td>${product.cost}</td>
-                </tr>
-            </#list>
-            </body>
-        </table>
-    </div>
-
 </@c.page>

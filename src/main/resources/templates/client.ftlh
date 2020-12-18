@@ -13,8 +13,14 @@
         <input type="radio" name="filter" id="city" value="city">
         <label for="city">городу</label><br/>
         <input type="text" name="search">
-        <button type="submit">Поиск</button><br/>
+        <button type="submit">Поиск</button>
+        <br/>
     </form>
+    <br/>
+    <form action="/addclient">
+        <button type="submit">Добавить запись в таблицу клиентов</button>
+    </form>
+    <br/>
     Таблица клиентов
     <table>
         <thead>

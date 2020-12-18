@@ -4,6 +4,9 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
+    <form action="/order">
+        <button type="submit">Вернуться к таблице заказов</button>
+    </form>
     <div><b>Добавление записи в таблицу заказов</b></div>
     <div>Заполните данные:</div>
     <div>
@@ -26,31 +29,4 @@
         </form>
     </div>
     <b>${message!}</b><br/>
-    <br/>
-    <b>Таблица заказов</b>
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>Код заказа</th>
-                <th>Покупатель</th>
-                <th>Товар</th>
-                <th>Кол-во</th>
-                <th>Дата заказа</th>
-            </tr>
-            </thead>
-            <body>
-            <#list orders as order>
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.client}</td>
-                    <td>${order.product}</td>
-                    <td>${order.quantity}</td>
-                    <td>${order.date}</td>
-                </tr>
-            </#list>
-            </body>
-        </table>
-    </div>
-
 </@c.page>

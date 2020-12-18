@@ -4,6 +4,9 @@
     <form action="/main">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
+    <form action="/client">
+        <button type="submit">Вернуться к таблице клиентов</button>
+    </form>
     <div><b>Добавление записи в таблицу клиентов</b></div>
     <div>Заполните данные:</div>
     <div>
@@ -22,33 +25,4 @@
         </form>
     </div>
     <b>${message!}</b><br/>
-    <br/>
-    <b>Таблица клиентов</b>
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>Код клиента</th>
-                <th>Имя клиента</th>
-                <th>E-mail</th>
-                <th>Телефон</th>
-                <th>Адрес</th>
-                <th>Город</th>
-            </tr>
-            </thead>
-            <body>
-            <#list clients as client>
-                <tr>
-                    <td>${client.id}</td>
-                    <td>${client.name}</td>
-                    <td>${client.email}</td>
-                    <td>${client.phone}</td>
-                    <td>${client.address}</td>
-                    <td>${client.city}</td>
-                </tr>
-            </#list>
-            </body>
-        </table>
-    </div>
-
 </@c.page>
