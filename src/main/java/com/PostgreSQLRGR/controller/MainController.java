@@ -118,7 +118,7 @@ public class MainController {
             return "product";
         }
 
-        //Тесты
+        //Тесты кеками
 
 //        product.forEach(System.out::println);
 //        System.out.println("id = " + id);
@@ -143,6 +143,16 @@ public class MainController {
             order = orderRepo.findByClient(search);
         } else if (filter.equals("product") && !search.isEmpty()) {
             order = orderRepo.findByProduct(search);
+        } else if (filter.equals("id") && !search.isEmpty()) {
+            int isIdInt;
+            try {
+                isIdInt = Integer.parseInt(search);
+            } catch (NumberFormatException ex) {
+                model.addAttribute("message", "Введите корректный номер заказа (число)");
+                model.addAttribute("orders", orderRepo.findAll());
+                return "order";
+            }
+            order = orderRepo.findById(isIdInt);
         } else {
             order = orderRepo.findAll();
         }

@@ -12,9 +12,9 @@
             <option name="filterType" value="type">Тип</option>
             <option name="filterMaterial" value="material">Материал</option>
         </select>
-        <input type="text" name="search">
-        <label for="availability">Показать только товары в наличии</label>
-        <input type="checkbox" name="availability" id="availability"><br/>
+        <input type="text" name="search"><br/>
+        <input type="checkbox" name="availability" id="availability">
+        <label for="availability">Показать только товары в наличии</label><br/>
         <button type="submit">Поиск</button>
         <br/>
     </form>
@@ -34,7 +34,7 @@
     </form>
     <br/>
     Таблица ювелирных изделий
-    <table>
+    <table border="1">
         <thead>
         <tr>
             <th>Код изделия</th>

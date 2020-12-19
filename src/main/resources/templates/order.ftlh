@@ -7,6 +7,7 @@
     Поиск заказа: <br/>
     <form method="get">
         <select name="filter">
+            <option name="filterId" value="id">Код заказа</option>
             <option name="filterClient" value="client">Клиент</option>
             <option name="filterProduct" value="product">Изделие</option>
         </select>
@@ -18,9 +19,9 @@
     <form action="/addorder">
         <button type="submit">Добавить запись в таблицу заказов</button>
     </form>
-    <br/>
+    <b>${message!}</b><br/>
     Таблица заказов
-    <table>
+    <table border="1">
         <thead>
         <tr>
             <th>Код заказа</th>

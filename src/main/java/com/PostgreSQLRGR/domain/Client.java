@@ -1,6 +1,5 @@
 package com.PostgreSQLRGR.domain;
 
-
 import javax.persistence.*;
 
 @Entity
