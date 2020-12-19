@@ -351,6 +351,11 @@ public class MainController {
             return viewOrderTable(model);
         }
 
+        if(isQuantityInt < 1){
+            model.addAttribute("message", "Количество заказа не может быть равно нулю!");
+            return viewOrderTable(model);
+        }
+
         LocalDate date = LocalDate.now();
 
         Order order = new Order(client, product, isQuantityInt, date);
