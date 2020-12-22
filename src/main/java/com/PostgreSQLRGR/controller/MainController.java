@@ -1,8 +1,8 @@
 package com.PostgreSQLRGR.controller;
 
-import com.PostgreSQLRGR.domain.Client;
-import com.PostgreSQLRGR.domain.Order;
-import com.PostgreSQLRGR.domain.Product;
+import com.PostgreSQLRGR.models.Client;
+import com.PostgreSQLRGR.models.Order;
+import com.PostgreSQLRGR.models.Product;
 import com.PostgreSQLRGR.repos.ClientRepo;
 import com.PostgreSQLRGR.repos.OrderRepo;
 import com.PostgreSQLRGR.repos.ProductRepo;
@@ -139,6 +139,9 @@ public class MainController {
                         @RequestParam(required = false, defaultValue = "") String filter,
                         Model model) {
         Iterable<Order> order;
+
+        //Фильтры
+
         if (filter.equals("client") && !search.isEmpty()) {
             order = orderRepo.findByClient(search);
         } else if (filter.equals("product") && !search.isEmpty()) {
@@ -157,6 +160,8 @@ public class MainController {
             order = orderRepo.findAll();
         }
 
+        //Вывод модели
+
         model.addAttribute("orders", order);
 
         return "order";
@@ -167,6 +172,9 @@ public class MainController {
                          @RequestParam(required = false, defaultValue = "") String filter,
                          Model model) {
         Iterable<Client> client;
+
+        //Фильтры
+
         System.out.println("search = " + search + " filter = " + filter);
         if (filter.equals("name") && !search.isEmpty()) {
             client = clientRepo.findByName(search);
@@ -177,6 +185,8 @@ public class MainController {
         } else {
             client = clientRepo.findAll();
         }
+
+        //Вывод модели
 
         model.addAttribute("clients", client);
 

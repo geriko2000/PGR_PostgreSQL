@@ -1,6 +1,6 @@
 package com.PostgreSQLRGR.repos;
 
-import com.PostgreSQLRGR.domain.Client;
+import com.PostgreSQLRGR.models.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

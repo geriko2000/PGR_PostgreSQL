@@ -1,4 +1,4 @@
-package com.PostgreSQLRGR.domain;
+package com.PostgreSQLRGR.models;
 
 import javax.persistence.*;
 

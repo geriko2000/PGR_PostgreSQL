@@ -1,6 +1,6 @@
 package com.PostgreSQLRGR.repos;
 
-import com.PostgreSQLRGR.domain.Order;
+import com.PostgreSQLRGR.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
